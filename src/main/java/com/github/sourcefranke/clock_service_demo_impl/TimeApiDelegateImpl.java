@@ -16,12 +16,21 @@ public class TimeApiDelegateImpl implements TimeApiDelegate {
 
     @Override
     public ResponseEntity<GetTime200Response> getTime(String dateFormat, String timeZone) {
-        log.debug("getTime, parameters: dateFormat [{}], timeZone [{}]", dateFormat, timeZone);
-        var response = new GetTime200Response()
-                .time(LocalDateTime.now(ZoneId.of(timeZone)).format(DateTimeFormatter.ofPattern(dateFormat)))
-                .dateFormat(dateFormat)
-                .timeZone(timeZone);
+        var time = currentTime(dateFormat, timeZone);
+        var response = map(time, dateFormat, timeZone);
         log.info("GET /time?date-format={}&time-zone={}, Response: {}", dateFormat, timeZone, response);
         return ResponseEntity.ok(response);
+    }
+
+    private String currentTime(String dateFormat, String timeZone) {
+        return LocalDateTime.now(ZoneId.of(timeZone))
+                .format(DateTimeFormatter.ofPattern(dateFormat));
+    }
+
+    private GetTime200Response map(String time, String dateFormat, String timeZone) {
+        return new GetTime200Response()
+                .time(time)
+                .dateFormat(dateFormat)
+                .timeZone(timeZone);
     }
 }
