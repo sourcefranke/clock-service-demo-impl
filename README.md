@@ -1,14 +1,14 @@
-# clock-service-demo-impl
+# Clock Service Demo Impl
 
 ## Purpose
-I have created this little demo project for a session about Rapid Prototyping.
+I have created this little demo project as an example for a session about Rapid Prototyping and the API-First approach.
 
-The slides for the presentation you can find here: https://sourcefranke.github.io/prototyping-apifirst-session
+The slides for the presentation you can find here: https://sourcefranke.github.io/prototyping-apifirst-session.
 
-## API-first approach
+## API-First
 The REST API has been defined with the help of Swagger.
 
-The Swagger UI you can find here: https://sourcefranke.github.io/clock-service-demo-api
+The Swagger UI is deployed here: https://sourcefranke.github.io/clock-service-demo-api.
 
 ## Deployment
-With the help of GitHub Actions, this webservice is deployed on [Heroku](https://heroku.com).
+This SpringBoot webservice is deployed on the cloud plattform [Heroku](https://heroku.com).
