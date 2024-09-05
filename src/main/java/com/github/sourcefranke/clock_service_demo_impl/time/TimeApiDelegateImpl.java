@@ -1,8 +1,10 @@
-package com.github.sourcefranke.clock_service_demo_impl;
+package com.github.sourcefranke.clock_service_demo_impl.time;
 
 import com.github.sourcefranke.clock_service_demo_impl.api.TimeApiDelegate;
 import com.github.sourcefranke.clock_service_demo_impl.model.GetTime200Response;
+import com.github.sourcefranke.clock_service_demo_impl.time.model.Time;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -14,23 +16,18 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class TimeApiDelegateImpl implements TimeApiDelegate {
 
+    private final TimeMapper mapper;
+
+    @Autowired
+    public TimeApiDelegateImpl(TimeMapper mapper) {
+        this.mapper = mapper;
+    }
+
     @Override
     public ResponseEntity<GetTime200Response> getTime(String dateFormat, String timeZone) {
-        var time = currentTime(dateFormat, timeZone);
-        var response = map(time, dateFormat, timeZone);
+        var time = Utils.currentTime(dateFormat, timeZone);
+        var response = mapper.map(time);
         log.info("GET /time?date-format={}&time-zone={}, Response: {}", dateFormat, timeZone, response);
         return ResponseEntity.ok(response);
-    }
-
-    private String currentTime(String dateFormat, String timeZone) {
-        return LocalDateTime.now(ZoneId.of(timeZone))
-                .format(DateTimeFormatter.ofPattern(dateFormat));
-    }
-
-    private GetTime200Response map(String time, String dateFormat, String timeZone) {
-        return new GetTime200Response()
-                .time(time)
-                .dateFormat(dateFormat)
-                .timeZone(timeZone);
     }
 }
